@@ -1,17 +1,13 @@
 ---
-title: "Document Startup Boilerplate etc."
+title: "Data Import and Basic Management"
 author: "Jack Sudds"
 date: "2024-12-20"
-output: github_document
+output: html_document
 ---
-
-Always switch output to "github_document" so that github bit looks better
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-Apparent direct method to install all necessarily packages quickly
 
 ```{r Packages}
 if (!require("pacman")) install.packages("pacman")
@@ -38,19 +34,31 @@ p_load(
   #Testing
   raster, dismo, terra, CCAMLRGIS, tigris, patchwork
 )
-
-#set theme for plots
-theme_set(theme_linedraw())
 ```
 
-Basic Method for manually installing individual packages
-
-```{r Basic Packages}
-install.packages("learnr")
-library(learnr)
+```{r Test Data}
+dataframe <- iris
 ```
 
-```{r test data}
-dataframe <- mtcars
+```{r Import methods}
+#Read from file in same directory
+#<name of df> <- read_excel(here("file name.xlsx"), sheet = "Sheet name", range = "A1:E33")
+#<name of df> <- read.csv(here("File name.csv"))
+```
+
+```{r Basic normalisation}
+#create copy of object
+dataframe1 <- dataframe
+#automatic name changes
+dataframe1 <- dataframe1 %>%
+  janitor::clean_names()
+```
+
+```{r subsetting types}
+dataframe1 <- dataframe
+# keep only some columns by number
+dataframe1 <- dataframe1[c(1,2,3,4)]
+# remove rows by number
+dataframe1 <- dataframe1[,-c(6,7)]
 ```
 
