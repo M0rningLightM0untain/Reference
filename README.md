@@ -1,6 +1,8 @@
 # Reference
 Reference Folder for R and GitHub
-A line I typed into my computer's command liine, how exciting!
+A line I typed into my computer's command line, how exciting!
+
+This is a line I wrote in RStudio
 
 Setting up Git Token
 
