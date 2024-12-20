@@ -1,3 +1,4 @@
+When an Important Change has Been Made
 Once you have made a change you want to add in
 open Git tab in top right
 click on staged buttons of changed docs
@@ -5,4 +6,7 @@ click commit button (tick in a box)
 add a commit message
 Click Commit
 
+After a Few Important Commits
+Pull first using Blue Arrow
+  this confirms that starting point is up to date
 Then back out and click the green up arrow to push
