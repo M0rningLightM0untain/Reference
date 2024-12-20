@@ -38,9 +38,16 @@ p_load(
 
 ```{r Test Data}
 dataframe <- iris
+data <- mtcars
 ```
 
 ```{r Basic Summaries}
+# take counts across multiple columns
+counts <- data %>%
+  count(gear, carb)
+# basic summary function
+summary <- dataframe %>%
+  summarise()
 # To Add - Summarise, 
 ```
 

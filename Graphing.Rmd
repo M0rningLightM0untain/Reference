@@ -91,7 +91,7 @@ ggplot(dataframe, aes(x = Sepal.Length, fill = Species)) +
   coord_cartesian(
 #Set axis limits
     xlim = c(4,8),
-#Make bars sit on bottom row
+#Make bars sit on bottom row, also removes gaps
     expand = FALSE
   ) +
 #Manually alter fill/colour related content
