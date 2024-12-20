@@ -44,29 +44,35 @@ dataframe <- iris
 #Read from file in same directory
 #<name of df> <- read_excel(here("file name.xlsx"), sheet = "Sheet name", range = "A1:E33")
 #<name of df> <- read.csv(here("File name.csv"))
+
+#Write to file types
+#write.xlsx(<Name of Object>, file = "<File name>.xlsx")
+#write.csv(<Name of Object>, file = "<File name>.csv")
 ```
 
 ```{r Basic normalisation}
 #create copy of object
 dataframe1 <- dataframe
 #automatic name changes
-dataframe1 <- dataframe1 %>%
+dataframe1 <- dataframe %>%
   janitor::clean_names()
+#change column names
 
 #To Add - changing column names, setting row names, melts, joins both long and short, add rows and columns + binding, set column type, binds, string pad
 ```
 
 ```{r subsetting types}
-dataframe1 <- dataframe
 # keep only some columns by number
-dataframe1 <- dataframe1[c(1,2,3,4)]
-# remove rows by number
-dataframe1 <- dataframe1[,-c(6,7)]
+dataframe1 <- dataframe[c(1,2,3,4)]
+# keep only some columns by name
+dataframe1 <- dataframe[,c("Sepal.Width", "Species")]
+
+
 
 #To Add - Sort, remove NAs, filter by name, filter by partial string, filter by numerical, coalesce, split and join strings in columns
 ```
 
 ```{r Simple Calculations}
-# to add - Mutate and variations, aggregate, gather, simple addition of columns
+# to add - simple addition of columns
 ```
 

@@ -44,6 +44,11 @@ dataframe <- iris
 # To Add - Summarise, 
 ```
 
+```{r Calculations}
+# To Add - Mutate and variations, aggregate, gather, 
+```
+
+
 ```{r Log Ratio Analysis}
 
 ```

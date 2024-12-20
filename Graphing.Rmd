@@ -38,13 +38,84 @@ p_load(
 
 ```{r Test Data}
 dataframe <- iris
+dataframe1 <- mtcars
 ```
 
 ```{r Basic Graphs and Aesthetic Options}
+# Point plot
+
+ggplot(dataframe, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape = Species)) +
+  geom_point() +
+#Include line
+  geom_vline(xintercept = 6, size = 0.5, color = "orange") +
+#Examples of the kinds of details which can be altered in a theme
+  theme(
+    plot.title = element_text(hjust = 0.5, face = 'bold'),
+        plot.subtitle = element_text(hjust = 0.5),
+        panel.background = element_rect(fill = 'white'),
+        panel.grid = element_line(color = 'grey'),
+        axis.line = element_line(color = 'black'),
+        panel.grid.minor.x = element_line(color = 'white'),
+        panel.grid.minor.y = element_line(color = 'grey'),
+        panel.grid.major.y = element_line(color = 'darkgrey'),
+    axis.text.x = element_text(angle = 90)
+  ) +
+#Specify details about legend
+  guides(
+#Specify text
+    colour = guide_legend("guide title"),
+#Remove guide
+    #colour = "none"
+#Alter order
+    shape = guide_legend(order = 1)
+  ) +
+# Specify axis label and title text
+  labs(
+    title = "Title",
+    subtitle = "Subtitle",
+    x = "Complex Titles can contain other stuff, \u03B413C‰",
+    y = expression("Log" [10]* " Ratio ")
+  ) +
+  scale_y_continuous(
+#Breaks in axis
+    breaks = seq(1.5,5,by = 0.2)
+  ) +
+  scale_x_continuous()
+  #scale_color_brewer() +
+
+# Bar chart using counts (..count.. is depreciated)
+
+ggplot(dataframe, aes(x = Sepal.Length, fill = Species)) +
+  geom_bar(stat = "count") +
+#Second type of coord system
+  coord_cartesian(
+#Set axis limits
+    xlim = c(4,8),
+#Make bars sit on bottom row
+    expand = FALSE
+  ) +
+#Manually alter fill/colour related content
+  scale_fill_manual(
+#Change colours by including hex codes
+    values = c('#1b9e77','#d95f02','#7570b3'),
+#Change label contents
+    labels = c("Setosa", "Versicolor", "Virginica")
+    ) +
+#Separate graph into collection of Smaller ones
+  facet_wrap(
+#Specify what to 
+    ~Species,
+#Scales can be individualised "free"/"free_x"
+    scales = "free_y")
+
 # To Add - ggplot basics, theme options, label options, colour and plot area options, miscellaneous good practices
+
+#Save previous plot
+
+#ggsave("<filename.jpg/png>", dpi = <size>)
 ```
 
 ```{r Specific/Unique Plots}
-# To Add - Box plots, 
+# To Add - Box plots, Line of best fit, 
 ```
 
