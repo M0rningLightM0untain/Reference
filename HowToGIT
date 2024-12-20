@@ -10,3 +10,12 @@ After a Few Important Commits
 Pull first using Blue Arrow
   this confirms that starting point is up to date
 Then back out and click the green up arrow to push
+
+When working on Non-R Files
+Open Git Bash Cmd Line
+Commit:
+git commit --message "Include Message Here"
+Push:
+git push <Repo name> main
+Pull:
+git pull --ff-only
