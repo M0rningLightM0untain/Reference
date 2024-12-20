@@ -47,7 +47,7 @@ dataframe1 <- mtcars
 ggplot(dataframe, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape = Species)) +
   geom_point() +
 #Include line
-  geom_vline(xintercept = 6, size = 0.5, color = "orange") +
+  geom_vline(xintercept = 6, linewidth = 0.5, color = "orange") +
 #Examples of the kinds of details which can be altered in a theme
   theme(
     plot.title = element_text(hjust = 0.5, face = 'bold'),
