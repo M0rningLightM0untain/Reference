@@ -1,5 +1,5 @@
 ---
-title: "Data Import and Basic Management"
+title: "Graph Creation"
 author: "Jack Sudds"
 date: "2024-12-20"
 output: html_document
@@ -40,33 +40,11 @@ p_load(
 dataframe <- iris
 ```
 
-```{r Import methods}
-#Read from file in same directory
-#<name of df> <- read_excel(here("file name.xlsx"), sheet = "Sheet name", range = "A1:E33")
-#<name of df> <- read.csv(here("File name.csv"))
+```{r Basic Graphs and Aesthetic Options}
+# To Add - ggplot basics, theme options, label options, colour and plot area options, miscellaneous good practices
 ```
 
-```{r Basic normalisation}
-#create copy of object
-dataframe1 <- dataframe
-#automatic name changes
-dataframe1 <- dataframe1 %>%
-  janitor::clean_names()
-
-#To Add - changing column names, setting row names, melts, joins both long and short, add rows and columns + binding, set column type, binds, string pad
-```
-
-```{r subsetting types}
-dataframe1 <- dataframe
-# keep only some columns by number
-dataframe1 <- dataframe1[c(1,2,3,4)]
-# remove rows by number
-dataframe1 <- dataframe1[,-c(6,7)]
-
-#To Add - Sort, remove NAs, filter by name, filter by partial string, filter by numerical, coalesce, split and join strings in columns
-```
-
-```{r Simple Calculations}
-# to add - Mutate and variations, aggregate, gather, simple addition of columns
+```{r Specific/Unique Plots}
+# To Add - Box plots, 
 ```
 
