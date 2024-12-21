@@ -41,6 +41,7 @@ rm(list = ls(all.names = TRUE))
 data1 <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
 data2 <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
 data3 <- iris
+data4 <- mtcars
 ```
 
 ```{r Basic Graphs and Aesthetic Options}
@@ -110,10 +111,13 @@ ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
 #Scales can be individualised "free"/"free_x"
     scales = "free_y")
 
-# To Add - ggplot basics, theme options, label options, colour and plot area options, miscellaneous good practices
+#Additional table in plot
+#MWSTable <- data.frame(MWS = c("A", "B", "C", "D", "E", "F", "G", "H", "I"),
+                       #Age_Min = c(0,5,7,12,24,30,61,86,154),
+                       #Age_Max = c(5,7,12,24,30,61,86,154,"-"))
+#annotation_custom(tableGrob(MWSTable, rows=NULL, theme = ttheme_default(base_size = 9)), xmin = "C", xmax = "E", ymin = 2, ymax = 7)
 
 #Save previous plot
-
 #ggsave("<filename.jpg/png>", dpi = <size>)
 ```
 

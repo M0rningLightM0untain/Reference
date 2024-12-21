@@ -61,7 +61,7 @@ summarised <- data3 %>%
 ```
 
 ```{r Calculations}
-# To Add - Mutate and variations, aggregate, gather, 
+# To Add - Mutate and variations, aggregate, gather, convertion to dates, ifelse along with
 ```
 
 ```{r Log Ratio Analysis}
