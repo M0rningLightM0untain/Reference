@@ -59,8 +59,6 @@ data2 <- data2 %>%
   janitor::clean_names()
 #change column names of specific ones by number
 colnames(data1)[c(1,2,3)] <- c("Element", "Left MNE", "Right MNE")
-#set row names
-
 #ensure no duplicate lines
 data3 <- data3 %>%
   distinct()
@@ -82,7 +80,6 @@ data2$`New Column` <- as.factor(data2$`New Column`)
   #can also do character and numerical
 
 #To Add - joins both long and short, string pad
-#rm(list = ls(all.names = TRUE))
 ```
 
 ```{r subsetting types}
@@ -90,16 +87,21 @@ data2$`New Column` <- as.factor(data2$`New Column`)
 data1 <- data1[,c(1,2,3,4)]
 # keep only some rows by number
 data2 <- data2[c(1,2,3,4),]
+# keep with both
+data2 <- data2[2:4,3:4]
 # keep only some columns by name
 data3 <- data3[,c("Sepal.Width", "Species")]
 # sort by column values - ascending is default
 data3 <- data3 %>%
   arrange(desc(Sepal.Width))
+#filter by name
+data3 <- data3 %>%
+  filter(Species == "setosa")
 
 
 
 
-#To Add - Sort, remove NAs, filter by name, filter by partial string, filter by numerical, coalesce, split and join strings in columns
+#To Add - Sort, remove NAs, filter by partial string, filter by numerical, coalesce, split and join strings in columns
 ```
 
 ```{r Simple Calculations}

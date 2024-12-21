@@ -37,26 +37,101 @@ p_load(
 ```
 
 ```{r Test Data}
-dataframe <- iris
-data <- mtcars
+rm(list = ls(all.names = TRUE))
+data1 <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
+data2 <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
+data3 <- iris
+data4 <- mtcars
 ```
 
 ```{r Basic Summaries}
 # take counts across multiple columns
-counts <- data %>%
+counts <- data4 %>%
   count(gear, carb)
 # basic summary function
-summary <- dataframe %>%
-  summarise()
-# To Add - Summarise, 
+summary <- summary(data4)
+
+description <- psych::describe(data4, na.rm = TRUE)
+
+correlations <- cor(data4)
+
+summarised <- data3 %>%
+  group_by(Species) %>%
+  summarise(Mean = mean(Sepal.Length), median = median(Sepal.Length), sd = sd(Sepal.Length), Count = n())
 ```
 
 ```{r Calculations}
 # To Add - Mutate and variations, aggregate, gather, 
 ```
 
-
 ```{r Log Ratio Analysis}
+#Convert to usable
+LR <- data3
+LR_working <- LR
+Everything_long <- melt(LR_working, value.name = "Measurement", id=5, na.rm = TRUE)
+colnames(Everything_long) <- c("Species" ,"Measurement", "value")
+Everything_long$value <- as.numeric(Everything_long$value)
+Everything_long$Measurement <- as.character(Everything_long$Measurement)
+
+#Create Baseline
+counts <- Everything_long %>%
+  count(Measurement)
+
+min <- Everything_long %>%
+  group_by(Measurement) %>%
+  slice(which.min(value)) %>%
+  subset(select = c("Measurement" ,"value"))
+
+max <- Everything_long %>%
+  group_by(Measurement) %>%
+  slice(which.max(value)) %>%
+  subset(select = c("Measurement" ,"value"))
+
+mean <- Everything_long %>%
+  group_by(Measurement) %>%
+  summarise_at(vars(value), funs(mean))
+
+sd <- Everything_long %>%
+  group_by(Measurement) %>%
+  summarise_at(vars(value), funs(sd))
+
+CoV <- data.frame(matrix(ncol=2, nrow=nrow(min)))
+CoV$X1 <- min$Measurement
+CoV$X2 <- round(((sd$value/mean$value)*100), digits = 2)
+
+Baseline <- data.frame(matrix(ncol=6, nrow=nrow(min)))
+Baseline$X1 <- counts$Measurement
+Baseline$X2 <- counts$n
+Baseline$X3 <- min$value
+Baseline$X4 <- max$value
+Baseline$X5 <- mean$value
+Baseline$X6 <-CoV$X2
+
+colnames(Baseline)<- c('Measurement', 'n', 'Min.', 'Max.', 'Mean', 'CoV')
+
+
+#Calculate Log Ratio
+Everything_long$ratio <- Everything_long$value/Baseline$Mean[match(Everything_long$Measurement, Baseline$Measurement)]
+Everything_long$log <- round(log10(Everything_long$ratio), digits = 2)
+
+
+#Basic Plot
+
+ggplot(Everything_long, aes(x=log, y=after_stat(count), fill = Species)) +
+  geom_bar() +
+  geom_vline(xintercept = 0, size = 1.5, color = "orange") +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = 'bold'),
+        panel.background = element_rect(fill = 'white'),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(color = 'gray'),
+        axis.line = element_line(color = "black"),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_line(color = 'gray'),
+    plot.subtitle = element_text(hjust = 0.5)
+    ) +
+  scale_y_continuous(expand = c(0,0))
+
 
 ```
 
