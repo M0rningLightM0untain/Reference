@@ -37,51 +37,64 @@ p_load(
 ```
 
 ```{r Import methods}
+rm(list = ls(all.names = TRUE))
 #Read from file in same directory
-#<name of df> <- read_excel(here("file name.xlsx"), sheet = "Sheet name", range = "A1:E33")
+#<name of df> <- read.xlsx(here("file name.xlsx"), sheet = "Sheet name", range = "A1:E33")
+data1 <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
+data2 <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
 #<name of df> <- read.csv(here("File name.csv"))
 
 #Write to file types
 #write.xlsx(<Name of Object>, file = "<File name>.xlsx")
 #write.csv(<Name of Object>, file = "<File name>.csv")
+
+data3 <- iris
 ```
 
 ```{r Basic normalisation}
-dataframe <- iris
 #create copy of object
-dataframe1 <- dataframe
+data_Copy <- data1
 #automatic name changes
-dataframe1 <- dataframe %>%
+data2 <- data2 %>%
   janitor::clean_names()
 #change column names of specific ones by number
-colnames(dataframe1)[c(1,3,5)] <- c("Sepal.Lengths", "Petal.Lengths", "Species Name")
+colnames(data1)[c(1,2,3)] <- c("Element", "Left MNE", "Right MNE")
 #set row names
 
 #ensure no duplicate lines
-dataframe1 <- dataframe1 %>%
+data3 <- data3 %>%
   distinct()
 #add row
 new_row <- c(5,2,2,0.1,"cervus")
-dataframe2 <- rbind(dataframe1, new_row)
+data_Copy <- rbind(data1, new_row)
 #add column
-new_col <- dataframe2[c(2)]
-colnames(new_col)[c(1)] <- c("Sepal.Depths")
-dataframe3 <- cbind(dataframe2, new_col)
+new_col <- data2[c(2)]
+colnames(new_col)[c(1)] <- c("New Column")
+data2 <- cbind(data2, new_col)
+#melting
+data4 <- melt(data1, na.rm = FALSE, value.name = "Count", id = "Element")
+#set rownames
+data1 %>%
+  remove_rownames() %>%
+  column_to_rownames(var = "Element")
+#column typing
+data2$`New Column` <- as.factor(data2$`New Column`)
+  #can also do character and numerical
 
-#To Add - setting row names, melts, joins both long and short, set column type, binds, string pad
+#To Add - joins both long and short, string pad
+#rm(list = ls(all.names = TRUE))
 ```
 
 ```{r subsetting types}
-dataframe <- iris
 # keep only some columns by number
-dataframe1 <- dataframe[,c(1,2,3,4)]
+data1 <- data1[,c(1,2,3,4)]
 # keep only some rows by number
-dataframe2 <- dataframe[c(1,2,3,4),]
+data2 <- data2[c(1,2,3,4),]
 # keep only some columns by name
-dataframe3 <- dataframe[,c("Sepal.Width", "Species")]
+data3 <- data3[,c("Sepal.Width", "Species")]
 # sort by column values - ascending is default
-dataframe <- dataframe %>%
-  arrange(desc(Sepal.Length))
+data3 <- data3 %>%
+  arrange(desc(Sepal.Width))
 
 
 

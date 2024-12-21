@@ -37,14 +37,16 @@ p_load(
 ```
 
 ```{r Test Data}
-dataframe <- iris
-dataframe1 <- mtcars
+rm(list = ls(all.names = TRUE))
+data1 <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
+data2 <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
+data3 <- iris
 ```
 
 ```{r Basic Graphs and Aesthetic Options}
 # Point plot
 
-ggplot(dataframe, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape = Species)) +
+ggplot(data3, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape = Species)) +
   geom_point() +
 #Include line
   geom_vline(xintercept = 6, linewidth = 0.5, color = "orange") +
@@ -85,7 +87,7 @@ ggplot(dataframe, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape =
 
 # Bar chart using counts (..count.. is depreciated)
 
-ggplot(dataframe, aes(x = Sepal.Length, fill = Species)) +
+ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
   geom_bar(stat = "count") +
 #Second type of coord system
   coord_cartesian(
