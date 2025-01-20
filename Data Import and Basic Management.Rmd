@@ -80,6 +80,11 @@ data2$`New Column` <- as.factor(data2$`New Column`)
   #can also do character and numerical
 #pivot_wider
 data4 <- pivot_wider(data4, names_from = Element, values_from = Count)
+#string manipulation
+data_Copy <- data_Copy %>%
+mutate(Element = str_replace(Element, "D_", "Distal ")) %>%
+mutate(Element = str_replace(Element, "P_", "Proximal "))
+
 
 #To Add - joins both long and short, string pad, merge function, str_split_fixed
 ```
@@ -99,6 +104,7 @@ data3 <- data3 %>%
 #filter by name
 data3 <- data3 %>%
   filter(Species == "setosa"|Species == "versicolor")
+data3 <- subset(data3, Species=="versicolor")
 #OR
 data1 <- data1[data1$Element != "Mandible",]
 data1 <- data1 %>%
@@ -114,5 +120,14 @@ data1 <- data1[complete.cases(data1[,2]),]
 
 ```{r Simple Calculations}
 # to add - simple addition of columns, cumsum, 
+data4 <- data2
+#basic arithmetic
+var <- sum(data4$`Total_%`)
+data4$addition <- data4$Payne_Meat + data4$Payne_Milk
+data4$subtraction <- data4$Payne_Meat - data4$Payne_Milk
+data4$div <- data4$Payne_Meat/data4$Payne_Milk
+data4$multi <- data4$Payne_Meat*data4$Payne_Milk
+#cumulative sum
+data4$PercentCheck <- cumsum(data4$`Total_%`)
 ```
 
