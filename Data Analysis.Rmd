@@ -48,7 +48,7 @@ data4 <- mtcars
 # take counts across multiple columns
 counts <- data4 %>%
   count(gear, carb)
-# basic summary function
+# basic summary functions
 summary <- summary(data4)
 
 description <- psych::describe(data4, na.rm = TRUE)
@@ -63,6 +63,38 @@ summarised <- data3 %>%
 ```{r Calculations}
 # To Add - Mutate and variations, aggregate, gather, convertion to dates, ifelse along with
 ```
+
+```{r Zooarch Quanitification}
+#import and quick simplification to needed
+ZAQuant <- read_excel(here("Data", "Zooarch Quant.xlsx"), range = "A1:AC2365", sheet = "hfw_identifiable")
+ZAQuant[ZAQuant == "NA"] <- NA
+ZAQuant$side <- replace_na(ZAQuant$side, "Unsided")
+ZAQuant <- subset(ZAQuant, species_abv=="BO.T")
+ZAQuant <- ZAQuant[,c(2,4,6,7)]
+
+#data prepped, now for NISP, MNI & MAU
+cattle_Quant <- ZAQuant %>%
+  count(element_abv, side, area) %>%
+  spread(side, n) %>%
+  #rename(Unsided = "NA") %>%
+  rowwise() %>%
+  mutate(NISP = sum(c(L,R,Unsided), na.rm = TRUE))
+
+cattle_Quant$MNI <- with(cattle_Quant, ifelse(
+  element_abv %in% c("1ST", "2ND", "3RD"), NISP/8, ifelse(
+  element_abv %in% c("Teeth"), NISP/16, ifelse(
+  element_abv %in% c("Calcaneum", "Astragalus", "Naviculo-cuboid"), ifelse(!is.na(L) & !is.na(R), (pmax(cattle_Quant$L, cattle_Quant$R))/2, ifelse(is.na(L), R/2, L/2)), ifelse(
+  is.na(L) & is.na(R), Unsided,  ifelse(is.na(L) | is.na(R), ifelse(is.na(L), R, L), ifelse(!is.na(L) & !is.na(R), pmax(cattle_Quant$L, cattle_Quant$R), NA
+  )))))))
+
+cattle_Quant$MAU <- with(cattle_Quant, ifelse(
+  element_abv %in% c("Metacarpal", "Metatarsal", "Matapodia"), NISP/2, ifelse(
+    element_abv %in%  c("1st_Phalanx", "2nd_Phalanx", "3rd_Phalanx"), NISP/8, ifelse(
+      element_abv %in% c("Atlas", "Axis", "Vertebra"), NISP/1, ifelse(
+        element_abv %in% c("Teeth"), NISP/32, NISP/2
+      )))))
+```
+
 
 ```{r Log Ratio Analysis}
 #Convert to usable
@@ -119,7 +151,7 @@ Everything_long$log <- round(log10(Everything_long$ratio), digits = 2)
 
 ggplot(Everything_long, aes(x=log, y=after_stat(count), fill = Species)) +
   geom_bar() +
-  geom_vline(xintercept = 0, size = 1.5, color = "orange") +
+  geom_vline(xintercept = 0, linewidth = 1.5, color = "orange") +
   theme(
     plot.title = element_text(hjust = 0.5, face = 'bold'),
         panel.background = element_rect(fill = 'white'),

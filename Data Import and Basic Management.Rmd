@@ -40,20 +40,22 @@ p_load(
 rm(list = ls(all.names = TRUE))
 #Read from file in same directory
 #<name of df> <- read.xlsx(here("file name.xlsx"), sheet = "Sheet name", range = "A1:E33")
-data1 <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
-data2 <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
+data1_base <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
+data2_base <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
 #<name of df> <- read.csv(here("File name.csv"))
 
 #Write to file types
 #write.xlsx(<Name of Object>, file = "<File name>.xlsx")
 #write.csv(<Name of Object>, file = "<File name>.csv")
 
-data3 <- iris
+data3_base <- iris
 ```
 
 ```{r Basic normalisation}
 #create copy of object
-data_Copy <- data1
+data_Copy <- data1_base
+data2 <- data2_base
+data3 <- data3_base
 #automatic name changes
 data2 <- data2 %>%
   janitor::clean_names()
@@ -90,6 +92,9 @@ mutate(Element = str_replace(Element, "P_", "Proximal "))
 ```
 
 ```{r subsetting types}
+data1 <- data1_base
+data2 <- data2_base
+data3 <- data3_base
 # keep only some columns by number
 data1 <- data1[,c(1,2,3,4)]
 # keep only some rows by number
@@ -112,6 +117,9 @@ data1 <- data1 %>%
 #remove NAs
 #can be done in some functions with is.na = FALSE
 data1 <- data1[complete.cases(data1[,2]),]
+#replace NAs
+#must be consistent about data type
+data1$UnSided_MNE <- replace_na(data1$UnSided_MNE, 0)
 
 
 
@@ -119,6 +127,9 @@ data1 <- data1[complete.cases(data1[,2]),]
 ```
 
 ```{r Simple Calculations}
+data1 <- data1_base
+data2 <- data2_base
+data3 <- data3_base
 # to add - simple addition of columns, cumsum, 
 data4 <- data2
 #basic arithmetic
