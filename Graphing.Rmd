@@ -70,7 +70,7 @@ ggplot(data3, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape = Spe
 #Remove guide
     #colour = "none"
 #Alter order
-    shape = guide_legend(order = 1)
+    shape = guide_legend(order = 1),
   ) +
 # Specify axis label and title text
   labs(

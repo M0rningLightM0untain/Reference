@@ -58,6 +58,17 @@ correlations <- cor(data4)
 summarised <- data3 %>%
   group_by(Species) %>%
   summarise(Mean = mean(Sepal.Length), median = median(Sepal.Length), sd = sd(Sepal.Length), Count = n())
+
+#can be used to do arithmetic in the %>% format
+summarised2 <- data3 %>%
+  group_by(Species) %>%
+  summarise_at(vars(Sepal.Length),
+               list(name = sum),
+               na.rm = TRUE)
+
+#add a totals row simply
+data4 <- data4 %>%
+  adorn_totals("row", c(1:11))
 ```
 
 ```{r Calculations}

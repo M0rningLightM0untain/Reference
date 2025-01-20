@@ -53,7 +53,7 @@ data3_base <- iris
 
 ```{r Basic normalisation}
 #create copy of object
-data_Copy <- data1_base
+data1 <- data1_base
 data2 <- data2_base
 data3 <- data3_base
 #automatic name changes
@@ -77,6 +77,8 @@ data4 <- melt(data1, na.rm = FALSE, value.name = "Count", id = "Element")
 data1 %>%
   remove_rownames() %>%
   column_to_rownames(var = "Element")
+#rownames to column
+
 #column typing
 data2$`New Column` <- as.factor(data2$`New Column`)
   #can also do character and numerical
