@@ -64,24 +64,100 @@ summarised <- data3 %>%
 # To Add - Mutate and variations, aggregate, gather, convertion to dates, ifelse along with
 ```
 
-```{r Zooarch Quanitification}
+```{r Zooarch Quanitification data prep}
 #import and quick simplification to needed
 ZAQuant <- read_excel(here("Data", "Zooarch Quant.xlsx"), range = "A1:AC2365", sheet = "hfw_identifiable")
 ZAQuant[ZAQuant == "NA"] <- NA
 ZAQuant$side <- replace_na(ZAQuant$side, "Unsided")
 ZAQuant <- subset(ZAQuant, species_abv=="BO.T")
-ZAQuant <- ZAQuant[,c(2,4,6,7)]
+ZAQuant <- ZAQuant[,c(4,6,7)]
+#names fixing
+ZAQuant <- ZAQuant %>%
+  mutate(element_abv = str_replace(element_abv, "1ST", "1st_Phalanx")) %>%
+  mutate(element_abv = str_replace(element_abv, "2ND", "2nd_Phalanx")) %>%
+  mutate(element_abv = str_replace(element_abv, "3RD", "3rd_Phalanx")) %>%
+  mutate(element_abv = str_replace(element_abv, "INCISIVE PLATE", "Incisive Plate")) %>%
+  mutate(element_abv = str_replace(element_abv, "CUBOID", "Cuboid")) %>%
+  mutate(element_abv = str_replace(element_abv, "STERNUM", "Sternum")) %>%
+  mutate(element_abv = str_replace(element_abv, "NAVICULAR", "Navicular")) %>%
+  mutate(element_abv = str_replace(element_abv, "TIBTAR", "Tibiotarsus")) %>%
+  mutate(element_abv = str_replace(element_abv, "TIBFIB", "Tibio-fibula")) %>%
+  mutate(element_abv = str_replace(element_abv, "ACC MP", "Accessory Metapodia")) %>%
+  mutate(element_abv = str_replace(element_abv, "INT CUN", "Cuneiform")) %>%
+  mutate(element_abv = str_replace(element_abv, "LAT CUN", "Cuneiform")) %>%
+  mutate(element_abv = str_replace(element_abv, "RADUL", "Radius_and_Ulna")) %>%
+  mutate(element_abv = str_replace(element_abv, "CARP", "Carpal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MAND", "Mandible")) %>%
+  mutate(element_abv = str_replace(element_abv, "AST", "Astragalus")) %>%
+  mutate(element_abv = str_replace(element_abv, "CALC", "Calcaneum")) %>%
+  mutate(element_abv = str_replace(element_abv, "CAUV", "Vertebra")) %>%
+  mutate(element_abv = str_replace(element_abv, "VERT", "Vertebra")) %>%
+  mutate(element_abv = str_replace(element_abv, "TUSK", "Tusk")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD D4", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD D", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD M3", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD M2", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD M", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD P2", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD P3", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD P4", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MD P", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MX M", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MX D", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MX P4", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MX P2", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "MX P", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "M CUN", "Cuneiform")) %>%
+  mutate(element_abv = str_replace(element_abv, "SCAP", "Scapula")) %>%
+  mutate(element_abv = str_replace(element_abv, "ULNA", "Ulna")) %>%
+  mutate(element_abv = str_replace(element_abv, "PHAL", "Phalanx")) %>%
+  mutate(element_abv = str_replace(element_abv, "INC", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "FEM", "Femur")) %>%
+  mutate(element_abv = str_replace(element_abv, "TIB", "Tibia")) %>%
+  mutate(element_abv = str_replace(element_abv, "RAD", "Radius")) %>%
+  mutate(element_abv = str_replace(element_abv, "PEL", "Pelvis")) %>%
+  mutate(element_abv = str_replace(element_abv, "TTH", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "HUM", "Humerus")) %>%
+  mutate(element_abv = str_replace(element_abv, "PAT", "Patella")) %>% 
+  mutate(element_abv = str_replace(element_abv, "TMT", "Tarsometatarsus")) %>%
+  mutate(element_abv = str_replace(element_abv, "COR", "Coracoid")) %>%
+  mutate(element_abv = str_replace(element_abv, "CMC", "Carpometacarpus")) %>%
+  mutate(element_abv = str_replace(element_abv, "FIB", "Fibula")) %>%
+  mutate(element_abv = str_replace(element_abv, "TARS", "Tarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "TV", "Vertebra")) %>%
+  mutate(element_abv = str_replace(element_abv, "AT", "Atlas")) %>%
+  mutate(element_abv = str_replace(element_abv, "AX", "Axis")) %>%
+  mutate(element_abv = str_replace(element_abv, "CV", "Vertebra")) %>%
+  mutate(element_abv = str_replace(element_abv, "LV", "Vertebra")) %>%
+  mutate(element_abv = str_replace(element_abv, "MC5", "Metacarpal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MC3", "Metacarpal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MC2", "Metacarpal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MC", "Metacarpal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MP", "Metapodia")) %>%
+  mutate(element_abv = str_replace(element_abv, "MT5", "Metatarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MT4", "Metatarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MT3", "Metatarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MT2", "Metatarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MT1", "Metatarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MT", "Metatarsal")) %>%
+  mutate(element_abv = str_replace(element_abv, "MX", "Maxilla")) %>%
+  mutate(element_abv = str_replace(element_abv, "NC", "Naviculo-cuboid")) %>%
+  mutate(element_abv = str_replace(element_abv, "HC", "Horn_Core")) %>%
+  mutate(element_abv = str_replace(element_abv, "C$", "Teeth")) %>%
+  mutate(element_abv = str_replace(element_abv, "S$", "Other_Diaphyses"))
+```
 
+```{r Zooarch Quantification code}
 #data prepped, now for NISP, MNI & MAU
 cattle_Quant <- ZAQuant %>%
-  count(element_abv, side, area) %>%
+  count(element_abv, side) %>%
   spread(side, n) %>%
   #rename(Unsided = "NA") %>%
   rowwise() %>%
   mutate(NISP = sum(c(L,R,Unsided), na.rm = TRUE))
 
 cattle_Quant$MNI <- with(cattle_Quant, ifelse(
-  element_abv %in% c("1ST", "2ND", "3RD"), NISP/8, ifelse(
+  element_abv %in% c("1st_Phalanx", "2nd_Phalanx", "3rd_Phalanx"), NISP/8, ifelse(
   element_abv %in% c("Teeth"), NISP/16, ifelse(
   element_abv %in% c("Calcaneum", "Astragalus", "Naviculo-cuboid"), ifelse(!is.na(L) & !is.na(R), (pmax(cattle_Quant$L, cattle_Quant$R))/2, ifelse(is.na(L), R/2, L/2)), ifelse(
   is.na(L) & is.na(R), Unsided,  ifelse(is.na(L) | is.na(R), ifelse(is.na(L), R, L), ifelse(!is.na(L) & !is.na(R), pmax(cattle_Quant$L, cattle_Quant$R), NA
@@ -93,6 +169,12 @@ cattle_Quant$MAU <- with(cattle_Quant, ifelse(
       element_abv %in% c("Atlas", "Axis", "Vertebra"), NISP/1, ifelse(
         element_abv %in% c("Teeth"), NISP/32, NISP/2
       )))))
+
+CQT <- c("Whole Animal", NA, NA, NA, sum(cattle_Quant$NISP), as.integer(max(subset(cattle_Quant$MNI, cattle_Quant$element_abv != "Carpal"))), as.integer(max(cattle_Quant$MAU)))
+cattle_Quant <- rbind(cattle_Quant, CQT)
+cattle_Quant$NISP <- as.numeric(cattle_Quant$NISP)
+cattle_Quant$MNI <- as.numeric(cattle_Quant$MNI)
+cattle_Quant$MAU <- as.numeric(cattle_Quant$MAU)
 ```
 
 
