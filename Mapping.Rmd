@@ -45,6 +45,8 @@ dataframe <- iris
 #Most Basic
 #load basemap data
 Base_map <- ne_countries(scale = "large", returnclass = "sf", country = "united kingdom")
+world <- ne_countries(scale = "medium", returnclass = "sf")
+class(world)
 
 #imaginary data
 data1 <- dataframe
@@ -61,6 +63,8 @@ ggplot(Base_map) +
     x = "Longitude",
     y = "Latitude"
   )+
+#ABILITY TO ADD LABELS
+#geom_label_repel(data = BaseMap, aes(label = *needs to be specifically created*, x = long, y = lat, fontface = "bold"),label.size = NA, fill = "#FF0000", color = "black", segment.colour = "#FF0000", max.overlaps  = Inf, min.segment.length = 0)+
   coord_sf(xlim = c(-8,1), ylim = c(49,62),
              expand = FALSE) +
   geom_point(data1, mapping = aes(x = Sepal.Length, y = Sepal.Width), size = 1.5) 

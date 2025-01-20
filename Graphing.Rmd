@@ -124,6 +124,7 @@ ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
 #Another Colour method
   #scale_fill_brewer(palette = "Dark2")
 
+
 #Additional table in plot
 #MWSTable <- data.frame(MWS = c("A", "B", "C", "D", "E", "F", "G", "H", "I"),
                        #Age_Min = c(0,5,7,12,24,30,61,86,154),
@@ -138,16 +139,42 @@ ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
 #data
 plotting <- data3
 plotting_melt <- melt(data3, id.vars = "Species", variable.name = "Metric", value.name = "Value")
+plotting_melt <- plotting_melt %>%
+  arrange(desc(Metric))
 plotting <- ggplot(plotting, aes(x=Sepal.Length, y = Sepal.Width, colour = Species))
-plotting_melt <- ggplot(plotting_melt, aes(x=Metric, y = Value, colour = Species))
+plotting_melt_c <- ggplot(plotting_melt, aes(x=Metric, y = Value, colour = Species))
+plotting_melt_f <- ggplot(plotting_melt, aes(x=Metric, y = Value, fill = Species))
 
-plotting_melt +
+
+#Jitter
+plotting_melt_c +
   geom_jitter()+
   aes()+
   theme_linedraw()+
   labs(
     title = "Jitter plot"
   )
+
+#fancy-er bars
+plotting_melt_f +
+  geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = 'bold'),
+        panel.background = element_rect(fill = 'white'),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(color = 'gray'),
+        axis.line = element_line(color = "black"),
+        panel.grid.minor.x = element_line(color = 'gray'),
+        panel.grid.minor.y = element_line(color = 'gray'),
+    plot.subtitle = element_text(hjust = 0.5)
+    ) +
+  labs(
+    x = "Measurement",
+    y = "Value",
+    title = "Fancy-er Bars",
+    fill = "Species"
+  ) +
+  scale_fill_manual(values = wes_palette(n = 3, name = "Darjeeling2"))
 ```
 
 ```{r Pie Chart - EXPAND}
