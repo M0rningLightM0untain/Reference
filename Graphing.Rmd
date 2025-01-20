@@ -42,11 +42,15 @@ data1 <- read.xlsx(here("Data/data.xlsx"), sheet = "skeletal_part_abundances")
 data2 <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
 data3 <- iris
 data4 <- mtcars
+
+#wokring with data
+#create right order for graphing in %>%
+#arrange(match(period, c("Iron Age", "Roman", "Anglo-Saxon", "Medieval", "Post-Medieval", "Modern")))
+
 ```
 
 ```{r Basic Graphs and Aesthetic Options}
 # Point plot
-
 ggplot(data3, aes(x = Sepal.Length, y=Sepal.Width, colour = Species, shape = Species)) +
   geom_point() +
 #Include line
@@ -130,6 +134,22 @@ ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
 #ggsave("<filename.jpg/png>", dpi = <size>)
 ```
 
+```{r Other Geoms}
+#data
+plotting <- data3
+plotting_melt <- melt(data3, id.vars = "Species", variable.name = "Metric", value.name = "Value")
+plotting <- ggplot(plotting, aes(x=Sepal.Length, y = Sepal.Width, colour = Species))
+plotting_melt <- ggplot(plotting_melt, aes(x=Metric, y = Value, colour = Species))
+
+plotting_melt +
+  geom_jitter()+
+  aes()+
+  theme_linedraw()+
+  labs(
+    title = "Jitter plot"
+  )
+```
+
 ```{r Pie Chart - EXPAND}
 pie_data <- data3
 pie_data$SLfraction = pie_data$Sepal.Length / sum(pie_data$Sepal.Length)
@@ -149,3 +169,29 @@ ggplot(pie_data, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = Specie
   scale_fill_brewer(palette = "Set3")
 ```
 
+```{r Boxplot - EXPAND}
+#data
+box <- data3
+box <- melt(box, id.vars = "Species", variable.name = "Metric", value.name = "Value")
+
+#plotting
+ggplot(box, aes(x = Metric, y = Value)) +
+   geom_boxplot(outlier.alpha = 0) +
+   stat_boxplot(geom = "errorbar", linetype = 1, width = 0.5) +
+  aes() +
+  theme_linedraw() +
+  labs(
+    x = "Metric",
+    y = "Value",
+    title = "Flower Box")
+
+ggplot(box, aes(x = Metric, y = Value, fill = Species)) +
+   geom_boxplot(outlier.alpha = 0) +
+   stat_boxplot(geom = "errorbar", linetype = 1, width = 0.5) +
+  aes() +
+  theme_linedraw() +
+  labs(
+    x = "Metric",
+    y = "Value",
+    title = "Flower Box")
+```

@@ -99,8 +99,13 @@ data_Copy <- data_Copy %>%
 mutate(Element = str_replace(Element, "D_", "Distal ")) %>%
 mutate(Element = str_replace(Element, "P_", "Proximal "))
 #separating out row values onto different ones
-data5 <- data5 %>%
+data5_temp <- data5 %>%
   separate_rows(Car, sep = " ")
+#separating col into multiple
+data5 <- data5 %>%
+  separate(Car, c("Make", "Model"), sep = " ")
+#merging columns into 1
+data5$Car <- paste(data5$Make, data5$Model, sep = " ")
 
 
 #To Add - joins both long and short, string pad, merge function, str_split_fixed
@@ -131,12 +136,11 @@ data1 <- data1 %>%
   subset(Element != "Scapula")
 #remove NAs
 #can be done in some functions with is.na = FALSE
-data1 <- data1[complete.cases(data1[,2]),]
+data1_temp <- data1[complete.cases(data1[,2]),]
+data1_temp <- drop_na(data1, Right_MNE)
 #replace NAs
 #must be consistent about data type
 data1$UnSided_MNE <- replace_na(data1$UnSided_MNE, 0)
-
-
 
 #To Add - Sort, remove NAs, filter by partial string, filter by numerical, coalesce, split and join strings in columns
 ```
