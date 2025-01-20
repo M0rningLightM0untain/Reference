@@ -109,7 +109,16 @@ ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
 #Specify what to 
     ~Species,
 #Scales can be individualised "free"/"free_x"
-    scales = "free_y")
+    scales = "free_y",
+#direction of facet
+      dir = "v",
+#change location of label
+      strip.position = "top") +
+#Other Coords method
+  coord_cartesian(xlim = c(3,9),
+                  expand = FALSE) +
+#Another Colour method
+  #scale_fill_brewer(palette = "Dark2")
 
 #Additional table in plot
 #MWSTable <- data.frame(MWS = c("A", "B", "C", "D", "E", "F", "G", "H", "I"),
@@ -121,7 +130,22 @@ ggplot(data3, aes(x = Sepal.Length, fill = Species)) +
 #ggsave("<filename.jpg/png>", dpi = <size>)
 ```
 
-```{r Specific/Unique Plots}
-# To Add - Box plots, Line of best fit, 
+```{r Pie Chart - EXPAND}
+pie_data <- data3
+pie_data$SLfraction = pie_data$Sepal.Length / sum(pie_data$Sepal.Length)
+pie_data$ymax = cumsum(pie_data$SLfraction)
+pie_data$ymin = c(0, head(pie_data$ymax, n=-1))
+pie_data$labelPosition = (pie_data$ymax + pie_data$ymin) / 2
+pie_data$label = paste0(pie_data$Species, "\n Count: ", pie_data$Sepal.Length)
+
+ggplot(pie_data, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = Species, stat = "identity")) +
+  geom_rect() +
+  theme_void() +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Sepal Length By Species"
+  ) +
+  xlim(c(2,4)) +
+  scale_fill_brewer(palette = "Set3")
 ```
 

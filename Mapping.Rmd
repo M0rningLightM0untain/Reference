@@ -37,6 +37,7 @@ p_load(
 ```
 
 ```{r Test Data}
+rm(list = ls(all.names = TRUE))
 dataframe <- iris
 ```
 

@@ -68,6 +68,7 @@ summarised2 <- data3 %>%
 
 #add a totals row simply
 data4 <- data4 %>%
+  rownames_to_column(var = "Car") %>%
   adorn_totals("row", c(1:11))
 ```
 
@@ -187,7 +188,6 @@ cattle_Quant$NISP <- as.numeric(cattle_Quant$NISP)
 cattle_Quant$MNI <- as.numeric(cattle_Quant$MNI)
 cattle_Quant$MAU <- as.numeric(cattle_Quant$MAU)
 ```
-
 
 ```{r Log Ratio Analysis}
 #Convert to usable

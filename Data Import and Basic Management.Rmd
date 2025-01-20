@@ -49,6 +49,7 @@ data2_base <- read.xlsx(here("Data/data_2.xlsx"), sheet = "Sheep_Mandibles")
 #write.csv(<Name of Object>, file = "<File name>.csv")
 
 data3_base <- iris
+data5_base <- mtcars
 ```
 
 ```{r Basic normalisation}
@@ -56,6 +57,7 @@ data3_base <- iris
 data1 <- data1_base
 data2 <- data2_base
 data3 <- data3_base
+data5 <- data5_base
 #automatic name changes
 data2 <- data2 %>%
   janitor::clean_names()
@@ -73,12 +75,20 @@ colnames(new_col)[c(1)] <- c("New Column")
 data2 <- cbind(data2, new_col)
 #melting
 data4 <- melt(data1, na.rm = FALSE, value.name = "Count", id = "Element")
+data3_melt <- melt(data3, id.vars = "Species", variable.name = "Metric", value.name = "Value")
 #set rownames
 data1 %>%
   remove_rownames() %>%
   column_to_rownames(var = "Element")
 #rownames to column
-
+data5 <- data.frame(names = row.names(data5), data5)
+    #OR
+data5 <- data5_base
+data5 <- cbind(rownames(data5), data.frame(data5, row.names = NULL))
+    #OR (in %>%)
+data5 <- data5_base
+data5 <- data5 %>%
+  rownames_to_column(var = "Car")
 #column typing
 data2$`New Column` <- as.factor(data2$`New Column`)
   #can also do character and numerical
@@ -88,6 +98,9 @@ data4 <- pivot_wider(data4, names_from = Element, values_from = Count)
 data_Copy <- data_Copy %>%
 mutate(Element = str_replace(Element, "D_", "Distal ")) %>%
 mutate(Element = str_replace(Element, "P_", "Proximal "))
+#separating out row values onto different ones
+data5 <- data5 %>%
+  separate_rows(Car, sep = " ")
 
 
 #To Add - joins both long and short, string pad, merge function, str_split_fixed
